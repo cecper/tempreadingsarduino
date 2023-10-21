@@ -1,0 +1,42 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Docker/nodejs/**'  # Watch for changes in service1 folder
+      - 'Docker/pgsql/**'  # Watch for changes in service2 folder
+      - 'Docker/php/**'  # Watch for changes in service3 folder
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build and Push Service 1 Docker Image
+        if: ${{ contains(github.event.paths, 'Docker/nodejs/') }}
+        run: |
+          docker buildx build -t cecper/nodejs:latest nodejs
+          docker push cecper/nodejs:latest
+
+      - name: Build and Push Service 2 Docker Image
+        if: ${{ contains(github.event.paths, 'Docker/pgsql/') }}
+        run: |
+          docker buildx build -t cecper/pgsql:latest pgsql
+          docker push cecper/pgsql:latest
+
+      - name: Build and Push Service 3 Docker Image
+        if: ${{ contains(github.event.paths, 'Docker/php/') }}
+        run: |
+          docker buildx build -t cecper/php:latest php
+          docker push cecper/php:latest
