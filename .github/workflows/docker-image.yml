@@ -21,18 +21,13 @@ jobs:
 
       - name: Build and Push Service 1 Docker Image
         run: |
-          docker buildx build -t cecper/nodejs:latest Docker/nodejs
-          docker tag cecper/nodejs:latest docker.io/cecper/nodejs:latest
-          docker push docker.io/cecper/nodejs:latest
-
+          docker build -t cecper/nodejs:latest Docker/nodejs
+          docker push cecper/nodejs:latest
       - name: Build and Push Service 2 Docker Image
         run: |
-          docker buildx build -t cecper/pgsql:latest Docker/pgsql
-          docker tag cecper/pgsql:latest docker.io/cecper/pgsql:latest
-          docker push docker.io/cecper/pgsql:latest
-
+          docker build -t cecper/pgsql:latest Docker/pgsql
+          docker push cecper/pgsql:latest
       - name: Build and Push Service 3 Docker Image
         run: |
-          docker buildx build -t cecper/php:latest Docker/php
-          docker tag cecper/php:latest docker.io/cecper/php:latest
-          docker push docker.io/cecper/php:latest
+          docker build -t cecper/php:latest Docker/php
+          docker push cecper/php:latest
