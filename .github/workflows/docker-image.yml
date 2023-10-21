@@ -7,7 +7,7 @@ on:
     paths:
       - 'Docker/nodejs/**'  # Watch for changes in service1 folder
       - 'Docker/pgsql/**'  # Watch for changes in service2 folder
-      - 'Docker/php/**'  # Watch for changes in service3 folder
+      - 'Docker/php/**'    # Watch for changes in service3 folder
 
 jobs:
   build-and-push:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@v3  # Change version to v3
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
