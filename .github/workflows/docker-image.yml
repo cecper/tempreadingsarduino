@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'Docker/nodejs/**'  # Watch for changes in service1 folder
-      - 'Docker/pgsql/**'  # Watch for changes in service2 folder
-      - 'Docker/php/**'    # Watch for changes in service3 folder
 
 jobs:
   build-and-push:
@@ -24,25 +20,16 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and Push Service 1 Docker Image
-        if: ${{ github.event.paths }} in ['Docker/nodejs/']
         run: |
-          cd Docker\nodejs
-          docker buildx build -t cecper/nodejs:latest nodejs
+          docker buildx build -t cecper/nodejs:latest Docker/nodejs
           docker push cecper/nodejs:latest
 
-
       - name: Build and Push Service 2 Docker Image
-        if: ${{ github.event.paths }} in ['Docker/pgsql/']
         run: |
-          cd Docker\pgsql
-          docker buildx build -t cecper/pgsql:latest pgsql
+          docker buildx build -t cecper/pgsql:latest Docker/pgsql
           docker push cecper/pgsql:latest
 
       - name: Build and Push Service 3 Docker Image
-        if: ${{ github.event.paths }} in ['Docker/php/']
         run: |
-          cd Docker\php
-          docker buildx build -t cecper/php:latest php
+          docker buildx build -t cecper/php:latest Docker/php
           docker push cecper/php:latest
-
-
