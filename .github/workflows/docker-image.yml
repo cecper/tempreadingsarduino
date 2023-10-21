@@ -26,18 +26,22 @@ jobs:
       - name: Build and Push Service 1 Docker Image
         if: ${{ github.event.paths }} in ['Docker/nodejs/']
         run: |
+          cd Docker/nodejs
           docker buildx build -t cecper/nodejs:latest nodejs
           docker push cecper/nodejs:latest
+
 
       - name: Build and Push Service 2 Docker Image
         if: ${{ github.event.paths }} in ['Docker/pgsql/']
         run: |
+          cd Docker/pgsql
           docker buildx build -t cecper/pgsql:latest pgsql
           docker push cecper/pgsql:latest
 
       - name: Build and Push Service 3 Docker Image
         if: ${{ github.event.paths }} in ['Docker/php/']
         run: |
+          cd Docker/php
           docker buildx build -t cecper/php:latest php
           docker push cecper/php:latest
 
