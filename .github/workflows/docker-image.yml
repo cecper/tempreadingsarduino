@@ -24,26 +24,21 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and Push Service 1 Docker Image
-        if: ${{ contains(github.event.paths, 'Docker/nodejs/') }}
+        if: ${{ github.event.paths }} in ['Docker/nodejs/']
         run: |
           docker buildx build -t cecper/nodejs:latest nodejs
           docker push cecper/nodejs:latest
 
       - name: Build and Push Service 2 Docker Image
-        if: ${{ contains(github.event.paths, 'Docker/pgsql/') }}
+        if: ${{ github.event.paths }} in ['Docker/pgsql/']
         run: |
           docker buildx build -t cecper/pgsql:latest pgsql
           docker push cecper/pgsql:latest
 
       - name: Build and Push Service 3 Docker Image
-        if: ${{ contains(github.event.paths, 'Docker/php/') }}
+        if: ${{ github.event.paths }} in ['Docker/php/']
         run: |
           docker buildx build -t cecper/php:latest php
           docker push cecper/php:latest
-      - name: Debug Event Paths
-        run: echo ${{ toJson(github.event.paths) }}
-      - name: List Changed Files
-        run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
 
 
