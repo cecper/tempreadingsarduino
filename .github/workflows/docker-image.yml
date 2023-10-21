@@ -40,3 +40,6 @@ jobs:
         run: |
           docker buildx build -t cecper/php:latest php
           docker push cecper/php:latest
+      - name: Debug Event Paths
+        run: echo ${{ toJson(github.event.paths) }}
+
