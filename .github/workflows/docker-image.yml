@@ -36,9 +36,11 @@ jobs:
 
       - name: Set up kubectl
         run: |
+          kubectl config set-context docker-desktop --cluster=cluster --user=cecper
           kubectl config use-context docker-desktop
         env:
           KUBECONFIG: Kubernetes/kubeconfig.yaml
+        
 
       - name: Update Node.js Service
         run: |
