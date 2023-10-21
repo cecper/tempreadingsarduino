@@ -42,4 +42,8 @@ jobs:
           docker push cecper/php:latest
       - name: Debug Event Paths
         run: echo ${{ toJson(github.event.paths) }}
+      - name: List Changed Files
+        run: |
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }}
+
 
