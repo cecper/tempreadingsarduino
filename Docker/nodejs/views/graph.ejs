@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Graph Overview</title>
+</head>
+<%- include('nav.html') %>
+
+<body>
+<form action="/graph" method="get">
+    <label for="date">Date: </label>
+    <input type="date" id="date" name="date" >
+    <input type="submit" value="Submit">
+</form>
+<div>
+    <h1>All temperature readings: </h1>
+    <canvas id="tempEvolution"></canvas>
+    <h1>All humidities readings: </h1>
+    <canvas id="humEvolution"></canvas>
+
+    <h1>Average temperatures readings: </h1>
+    <canvas id="averageTemp"></canvas>
+
+    <h1>Average humidities readings: </h1>
+    <canvas id="averageHum"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const readings = <%- JSON.stringify(readings) %>;
+
+
+    const timeLabels = readings.map(reading => reading.time);
+    const temperatures = readings.map(reading => reading.temperature);
+    const humidities = readings.map(reading => reading.humidity);
+
+    const graphTemp = document.getElementById('tempEvolution');
+
+    new Chart(graphTemp, {
+        type: 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Temperature (°C)',
+                data: temperatures,
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const graphHum = document.getElementById('humEvolution');
+
+    new Chart(graphHum, {
+        type : 'line',
+        data: {
+            labels: timeLabels,
+            datasets: [{
+                label: 'Humidity (%)',
+                data: humidities,
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const averages = <%- JSON.stringify(averages) %>;
+
+    const dateLabel = averages.map(average => average.date);
+    const averageTemperatures = averages.map(average => average.average_temperature);
+    const averageHumidities = averages.map(average => average.average_humidity);
+
+    const averageTemp = document.getElementById('averageTemp');
+    new Chart(averageTemp, {
+        type : 'line',
+        data: {
+            labels: dateLabel,
+            datasets: [{
+                label: 'Temperatures (°C)',
+                data: averageTemperatures,
+                borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    const averageHum = document.getElementById('averageHum');
+    new Chart(averageHum, {
+        type : 'line',
+        data: {
+            labels: dateLabel,
+            datasets: [{
+                label: 'Humidity (%)',
+                data: averageHumidities,
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

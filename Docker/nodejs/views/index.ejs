@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Web Page</title>
+</head>
+<%- include('nav.html') %>
+<body>
+<h1>Latest readings</h1>
+<p>Temperature: <span id="temp"></span></p>
+<p>Humidity: <span id="hum"></span></p>
+<p>Date: <span id="date"></span></p>
+<p>Time: <span id="time"></span></p>
+
+<script>
+    // Access the variable value and set it to the HTML element
+    document.getElementById('temp').innerText = '<%- temperature %> °c';
+    document.getElementById('hum').innerText = '<%- humidity %> %';
+    document.getElementById('date').innerText = '<%- date %>';
+    document.getElementById('time').innerText = '<%- time %>';
+</script>
+</body>
+</html>

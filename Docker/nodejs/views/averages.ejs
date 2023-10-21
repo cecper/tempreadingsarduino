@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Averages Overview</title>
+    <style>
+        th {
+            cursor: pointer;
+        }
+
+        .arrow-up:after {
+            content: '\2191';
+            padding-left: 5px;
+        }
+
+        .arrow-down:after {
+            content: '\2193';
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<%- include('nav.html') %>
+
+<body>
+<form action="/average" method="get">
+    <label for="date">Date: </label>
+    <input type="date" id="date" name="date">
+    <input type="submit" value="Submit">
+</form>
+
+<h1>Averages Overview</h1>
+<table id="averagesTable">
+    <thead>
+    <tr>
+        <th onclick="sortTable('average_temperature')">Average Temperature (°C) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('max_temperature')">Maximum Temperature (°C) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('min_temperature')">Minimum Temperature (°C) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('average_humidity')">Average Humidity (%) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('max_humidity')">Maximum Humidity (%) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('min_humidity')">Minimum Humidity (%) <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('date')">Date <span class="sort-arrow"></span></th>
+        <th onclick="sortTable('amount_of_readings')">Number of Readings <span class="sort-arrow"></span></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% averages.forEach(average => { %>
+        <tr>
+            <td><%= average.average_temperature %></td>
+            <td><%= average.max_temperature %></td>
+            <td><%= average.min_temperature %></td>
+            <td><%= average.average_humidity %></td>
+            <td><%= average.max_humidity %></td>
+            <td><%= average.min_humidity %></td>
+            <td><%= average.date %></td>
+            <td><%= average.amount_of_readings %></td>
+        </tr>
+    <% }); %>
+    </tbody>
+</table>
+
+<script>
+    // Function to sort the table by column
+    function sortTable(columnName) {
+        const table = document.getElementById('averagesTable');
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+
+        const sortFactor = table.getAttribute('data-sort-factor') === '1' ? -1 : 1;
+        table.setAttribute('data-sort-factor', sortFactor);
+
+        rows.sort((a, b) => {
+            const aValue = a.querySelector(`td:nth-child(${columnNameIndex[columnName]})`).textContent.trim();
+            const bValue = b.querySelector(`td:nth-child(${columnNameIndex[columnName]})`).textContent.trim();
+
+            if (!isNaN(aValue) && !isNaN(bValue)) {
+                return sortFactor * (parseFloat(aValue) - parseFloat(bValue));
+            } else {
+                return sortFactor * aValue.localeCompare(bValue);
+            }
+        });
+
+        tbody.innerHTML = '';
+        rows.forEach(row => {
+            tbody.appendChild(row);
+        });
+
+        const arrows = table.querySelectorAll('.sort-arrow');
+        arrows.forEach(arrow => {
+            arrow.textContent = '';
+        });
+
+        const currentArrow = table.querySelector(`th:nth-child(${columnNameIndex[columnName]}) .sort-arrow`);
+        currentArrow.textContent = sortFactor === 1 ? '\u2191' : '\u2193';
+    }
+
+    // Mapping of column names to column index (1-based)
+    const columnNameIndex = {
+        'average_temperature': 1,
+        'max_temperature': 2,
+        'min_temperature': 3,
+        'average_humidity': 4,
+        'max_humidity': 5,
+        'min_humidity': 6,
+        'date': 7,
+        'amount_of_readings': 8
+    };
+</script>
+</body>
+</html>

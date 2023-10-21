@@ -1,0 +1,11 @@
+create table temphum_readings
+(
+    temperature numeric,
+    humidity    numeric,
+    date        date,
+    time        time
+);
+
+alter table temphum_readings
+    owner to postgres;
+

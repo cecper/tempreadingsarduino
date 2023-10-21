@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgsql-service
+spec:
+  selector:
+    app: pgsql
+  ports:
+    - protocol: TCP
+      port: 5432  # The port your PostgreSQL database is listening on
+      targetPort: 5432
+  type: LoadBalancer  # Use NodePort or ClusterIP if LoadBalancer is not available
