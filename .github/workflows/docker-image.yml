@@ -45,7 +45,7 @@ jobs:
         with:
           manifest-path: /Kubernetes/nodejs/nodejs-deployment.yaml
           new-image-tag: latest
-          name: nodejs
+          name: cecper/nodejs
         
       - name: Update Node.js Service
         run: |
