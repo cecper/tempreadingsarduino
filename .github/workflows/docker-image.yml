@@ -41,7 +41,7 @@ jobs:
           KUBECONFIG: Kubernetes/kubeconfig.yaml
 
       - id: update-image
-        uses: Charlyzzz/update-k8s-image@v1  # Specify the version you want to use
+        uses: Charlyzzz/update-k8s-image@v1.7.1  # Specify the version you want to use
         with:
           manifest-path: /Kubernetes/nodejs/nodejs-deployment.yaml
           new-image-tag: latest
