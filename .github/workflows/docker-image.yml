@@ -39,6 +39,13 @@ jobs:
           kubectl config use-context localcluster
         env:
           KUBECONFIG: Kubernetes/kubeconfig.yaml
+
+      - id: update-image
+        uses: Charlyzzz/update-k8s-image@v1  # Specify the version you want to use
+        with:
+          manifest-path: /Kubernetes/nodejs/nodejs-deployment.yaml
+          new-image-tag: latest
+          name: nodejs
         
       - name: Update Node.js Service
         run: |
