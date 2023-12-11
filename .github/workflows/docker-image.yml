@@ -19,17 +19,17 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build and Push Service 1 Docker Image
+      - name: Build and Push Service 1 Docker Image for arm64
         run: |
-          docker build -t cecper/nodejs:latest Docker/nodejs
+          docker buildx build --platform linux/arm64 -t cecper/nodejs:latest Docker/nodejs
           docker push cecper/nodejs:latest
 
-      - name: Build and Push Service 2 Docker Image
+      - name: Build and Push Service 2 Docker Image for arm64
         run: |
-          docker build -t cecper/pgsql:latest Docker/pgsql
+          docker buildx build --platform linux/arm64 -t cecper/pgsql:latest Docker/pgsql
           docker push cecper/pgsql:latest
 
-      - name: Build and Push Service 3 Docker Image
+      - name: Build and Push Service 3 Docker Image for arm64
         run: |
-          docker build -t cecper/php:latest Docker/php
+          docker buildx build --platform linux/arm64 -t cecper/php:latest Docker/php
           docker push cecper/php:latest
