@@ -1,4 +1,4 @@
-FROM node:latest-arm64
+FROM --platform=linux/arm64  node:latest
 WORKDIR /app
 COPY . .
 ENV PORT=3000
