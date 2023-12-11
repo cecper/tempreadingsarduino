@@ -1,4 +1,4 @@
-FROM php:7.4
+FROM --platform=linux/arm64 php:7.4
 
 RUN apt-get update && apt-get install -y libpq-dev postgresql-client && docker-php-ext-install pdo pdo_pgsql
 WORKDIR /app
